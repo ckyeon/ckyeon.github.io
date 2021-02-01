@@ -1,8 +1,8 @@
 ---
-title: 새 게시물 작성법
+title: 게시물 작성법
 date: 2021-02-01 21:52:40 +0900
-categories: [Blogging, Tutorial]
-tags: [writing]
+categories: [Blogging]
+tags: [how, posting]
 ---
 
 ## Naming and Path
