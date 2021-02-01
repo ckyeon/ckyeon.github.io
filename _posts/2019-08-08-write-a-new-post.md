@@ -1,18 +1,19 @@
 ---
-title: Writing a New Post
-author: Cotes Chung
-date: 2019-08-08 14:10:00 +0800
+title: 새 게시물 작성법
+date: 2021-02-01 21:52:40 +0900
 categories: [Blogging, Tutorial]
 tags: [writing]
 ---
 
 ## Naming and Path
 
-Create a new file named `YYYY-MM-DD-TITLE.EXTENSION` and put it in the `_posts/` of the root directory. Please note that the `EXTENSION` must be one of `md` and `markdown`.
+`YYYY-MM-DD-TITLE.EXTENSION` 형식의 이름을 가진 파일을 만든 후 `_posts/` 폴더에 넣습니다.
+
+파일의 확장자는 `.md` 또는 `.markdown`이어야 합니다.
 
 ## Front Matter
 
-Basically, you need to fill the [Front Matter](https://jekyllrb.com/docs/front-matter/) as below at the top of the post:
+기본적으로  파일의 상단에 [Front Matter](https://jekyllrb.com/docs/front-matter/)를 작성해야 합니다.
 
 ```yaml
 ---
@@ -23,15 +24,17 @@ tags: [TAG]     # TAG names should always be lowercase
 ---
 ```
 
-> **Note**: The posts' ***layout*** has been set to `post` by default, so there is no need to add the variable ***layout*** in Front Matter block.
+> **Note**: 게시물의 ***layout*** 은 `post`에 기본적으로 추가되어 있으므로, Front Matter 블록에 변수 ***layout***을 추가할 필요가 없습니다. 
 
 ### Timezone of date
 
-In order to accurately record the release date of a post, you should not only setup the `timezone` of `_config.yml` but also provide the the post's timezone in field `date` of its Front Matter block. Format: `+/-TTTT`, e.g. `+0800`.
+게시물의 업로드 날짜를 정확하게 기록하기 위해 `_config.yml`파일에서 `timezone`을 설정하고, Front Matter 블록의 `date`에 UTC/GMT 시간을 지정해야 합니다. 
+
+양식: `+/-TTTT`, 예: `+0800`.
 
 ### Categories and Tags
 
-The `categories` of each post is designed to contain up to two elements, and the number of elements in `tags` can be zero to infinity. For instance:
+`categories`는 최대 두 개까지 설정 가능하며, `tags`는 갯수의 제한 없이 설정이 가능합니다.
 
 ```yaml
 categories: [Animal, Insect]
