@@ -7,13 +7,13 @@ tags: [writing]
 
 ## Naming and Path
 
-`YYYY-MM-DD-TITLE.EXTENSION` 형식의 이름을 가진 파일을 만든 후 `_posts/` 폴더에 넣습니다.
+`YYYY-MM-DD-TITLE.EXTENSION` 형식의 이름을 가진 파일을 만든 후 `_posts/` 폴더에 넣는다.
 
-파일의 확장자는 `.md` 또는 `.markdown`이어야 합니다.
+파일의 확장자는 `.md` 또는 `.markdown`이어야 한다.
 
 ## Front Matter
 
-기본적으로  파일의 상단에 [Front Matter](https://jekyllrb.com/docs/front-matter/)를 작성해야 합니다.
+기본적으로  파일의 상단에 [Front Matter](https://jekyllrb.com/docs/front-matter/)를 작성해야 한다.
 
 ```yaml
 ---
@@ -24,17 +24,17 @@ tags: [TAG]     # TAG names should always be lowercase
 ---
 ```
 
-> **Note**: 게시물의 ***layout*** 은 `post`에 기본적으로 추가되어 있으므로, Front Matter 블록에 변수 ***layout***을 추가할 필요가 없습니다. 
+> **Note**: 게시물의 ***layout*** 은 `post`에 기본적으로 추가되어 있으므로, Front Matter 블록에 변수 ***layout***을 추가할 필요가 없다. 
 
 ### Timezone of date
 
-게시물의 업로드 날짜를 정확하게 기록하기 위해 `_config.yml`파일에서 `timezone`을 설정하고, Front Matter 블록의 `date`에 UTC/GMT 시간을 지정해야 합니다. 
+게시물의 업로드 날짜를 정확하게 기록하기 위해 `_config.yml`파일에서 `timezone`을 설정하고, Front Matter 블록의 `date`에 UTC/GMT 시간을 지정해야 한다(대한민국 +0900). 
 
 양식: `+/-TTTT`, 예: `+0800`.
 
 ### Categories and Tags
 
-`categories`는 최대 두 개까지 설정 가능하며, `tags`는 갯수의 제한 없이 설정이 가능합니다.
+`categories`는 최대 두 개까지 설정 가능하며, `tags`는 갯수의 제한 없이 설정이 가능하다.
 
 ```yaml
 categories: [Animal, Insect]
