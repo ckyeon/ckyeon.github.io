@@ -13,7 +13,7 @@ tags: [how, posting]
 
 ## Front Matter
 
-기본적으로  파일의 상단에 [Front Matter](https://jekyllrb.com/docs/front-matter/)를 작성해야 한다.
+기본적으로  파일의 상단에 **`Front Matter`**를 작성해야 한다.
 
 ```yaml
 ---
@@ -28,7 +28,7 @@ tags: [TAG]     # TAG names should always be lowercase
 
 ### Timezone of date
 
-게시물의 업로드 날짜를 정확하게 기록하기 위해 `_config.yml`파일에서 `timezone`을 설정하고, Front Matter 블록의 `date`에 UTC/GMT 시간을 지정해야 한다(대한민국 +0900). 
+게시물의 업로드 날짜를 정확하게 기록하기 위해 `_config.yml`파일에서 `timezone`을 설정하고, Front Matter 블록의 `date`에 UTC/GMT 시간을 지정해야 한다(대한민국 +0900).
 
 양식: `+/-TTTT`, 예: `+0800`.
 
@@ -43,7 +43,7 @@ tags: [bee]
 
 ## Table of Contents
 
-By default, the **T**able **o**f **C**ontents (TOC) is displayed on the right panel of the post. If you want to turn it off globally, go to `_config.yml` and set the value of variable `toc` to `false`. If you want to turn off TOC for specific post, add the following to post's [Front Matter](https://jekyllrb.com/docs/front-matter/):
+기본적으로, **T**able **o**f **C**ontents (TOC)는 게시물의 오른쪽 패널에 표시된다. TOC를 끄려면 `_config.yml` 파일에서 `toc`를 `false`로 설정하면 된다. 만약 특정 게시물에 대한 TOC를 끄려면 **`Front Matter`**에 다음을 추가하면 된다.
 
 ```yaml
 ---
@@ -53,7 +53,7 @@ toc: false
 
 ## Comments
 
-Similar to TOC, the [Disqus](https://disqus.com/) comments is loaded by default in each post, and the global switch is defined by variable `comments` in file `_config.yml` . If you want to close the comment for specific post, add the following to the **Front Matter** of the post:
+TOC와 비슷하게 [Disqus](https://disqus.com/) 댓글은 기본적으로 각 게시물에 로드된다. 댓글의 전역 스위치는 `_config.yml`파일의 `comments`변수로 정의된다. 만약 특정 게시물에 대한 댓글을 닫으려면 **`Front Matter`**에 다음을 추가하면 된다.
 
 ```yaml
 ---
@@ -63,7 +63,7 @@ comments: false
 
 ## Mathematics
 
-For website performance reasons, the mathematical feature won't be loaded by default. But it can be enabled by:
+웹사이트의 성능상 이유로, 수학 기능은 기본적으로 로드되지 않는다. 게시물에서 **`Mathematics`** 기능을 활성화 하려면 게시물의 **`Front Matter`**에 다음을 추가하면 된다.
 
 ```yaml
 ---
@@ -73,7 +73,7 @@ math: true
 
 ## Mermaid
 
-[**Mermaid**](https://github.com/mermaid-js/mermaid) is a great diagrams generation tool. To enable it on your post, add the following to the YAML block:
+[**Mermaid**](https://github.com/mermaid-js/mermaid)는 훌륭한 다이어그램 생성 도구다. 게시물에서 **`Mermaid`** 기능을 활성화하려면 YAML 블록에 다음을 추가하면 된다.
 
 ```yml
 ---
@@ -81,13 +81,13 @@ mermaid: true
 ---
 ```
 
-Then you can use it like other markdown language: surround the graph code with ```` ```mermaid ```` and ```` ``` ````.
+그런 다음 다른 마크 다운 언어처럼 사용할 수 있다. 그래프 코드를 ```` ```mermaid ```` 및 ```` ``` ````로 묶으면 된다.
 
 ## Images
 
 ### Preview image
 
-If you want to add an image to the top of the post contents, specify the url and alt attribute for the image:
+게시물 상단에 이미지를 추가하려면 이미지의 `url` 및 `alt` 속성을 지정해야 한다.
 
 ```yaml
 ---
@@ -99,7 +99,7 @@ image:
 
 ### Image caption
 
-Add italics to the next line of an image，then it will become the caption and appear at the bottom of the image:
+이미지의 다음 줄에 기울임 글꼴을 추가하면 캡션이되어 이미지 하단에 나타난다.
 
 ```markdown
 ![img-description](/path/to/image)
@@ -108,7 +108,7 @@ _Image Caption_
 
 ### Image size
 
-You can specify the width (and height) of a image with `width`:
+`width`를 사용하여 이미지의 너비 (및 높이)를 지정할 수 있다.
 
 ```markdown
 ![Desktop View](/assets/img/sample/mockup.png){: width="400"}
@@ -116,11 +116,11 @@ You can specify the width (and height) of a image with `width`:
 
 ### Image position
 
-By default, the image is centered, but you can specify the position by using one of class `normal` , `left` and `right`. For example:
+기본적으로 이미지는 중앙에 있지만 `normal`, `left` 및 `right` 중 하나를 사용하여 위치를 지정할 수 있다.
+
+예를 들면:
 
 - **Normal position**
-
-  Image will be left aligned in below sample:
 
   ```markdown
   ![Desktop View](/assets/img/sample/mockup.png){: .normal}
@@ -138,34 +138,36 @@ By default, the image is centered, but you can specify the position by using one
   ![Desktop View](/assets/img/sample/mockup.png){: .right}
   ```
 
-**Limitation**: Once you specify the position of an image, it is forbidden to add the image caption.
+**제한 사항**: 이미지의 위치를 지정하면 **``Image caption``** 기능을 쓰지 못한다.
 
 ### CDN URL
 
-If you host the images on the CDN, you can save the time of repeatedly writing the CDN url by assigning the variable `img_cdn` of `_config.yml` file:
+CDN에서 이미지를 호스팅하는 경우 `_config.yml` 파일의 변수 `img_cdn`를 할당하여 CDN URL을 반복적으로 작성하는 시간을 절약할 수 있다.
 
 ```yaml
 img_cdn: https://cdn.com
 ```
 
-Once `img_cdn` is assigned, the CDN url will be added to the path of all images (images of site avatar and posts) starting with `/`.
+`img_cdn`이 할당되면, /로 시작하는 모든 이미지(사이트 아바타 및 게시물 이미지)의 경로에 CDN URL이 추가된다. 
 
-For instance, when using images:
+이미지를 사용하는 경우 :
 
 ```markdown
 ![The flower](/path/to/flower.png)
 ```
 
-The parsing result will automatically add the CDN prefix `https://cdn.com` before the image path:
+구문 분석 결과:
 
 ```html
 <img src="https://cdn.com/path/to/flower.png" alt="The flower">
 ```
 
+이미지 경로 앞에 CDN 접두사(`https://cdn.com`) 를 자동으로 추가한다.
+
 ## Pinned Posts
 
-You can pin one or more posts to the top of the home page, and the fixed posts are sorted in reverse order according to their release date. Enable by:
-
+하나 이상의 게시물을 홈페이지 상단에 고정할 수 있으며, 고정 게시물은 포스팅 날짜에 따라 역순으로 정렬된다.
+게시물에서 **`Pinned Posts`** 기능을 활성화 하려면 **`Front Matter`**에 다음을 추가하면 된다.
 ```yaml
 ---
 pin: true
@@ -174,7 +176,7 @@ pin: true
 
 ## Code Block
 
-Markdown symbols ```` ``` ```` can easily create a code block as following examples.
+마크 다운 기호 ```` ``` ````를 이용해 다음 예제와 같이 코드 블록을 쉽게 만들 수 있다.
 
 ```
 This is a common code snippet, without syntax highlight and line number.
@@ -182,9 +184,9 @@ This is a common code snippet, without syntax highlight and line number.
 
 ## Specific Language
 
-Using ```` ```language ```` you will get code snippets with line numbers and syntax highlight.
+```` ```language ````를 사용하면 줄 번호와 구문 강조 표시가 있는 코드 블록을 만들 수 있다.
 
-> **Note**: The Jekyll style `{% raw %}{%{% endraw %} highlight LANGUAGE {% raw %}%}{% endraw %}` or `{% raw %}{%{% endraw %} highlight LANGUAGE linenos {% raw %}%}{% endraw %}` are not allowed to be used in this theme !
+> **Note**: 지킬 스타일의 `{% raw %}{%{% endraw %} highlight LANGUAGE {% raw %}%}{% endraw %}` 또는 `{% raw %}{%{% endraw %} highlight LANGUAGE linenos {% raw %}%}{% endraw %}`은 이 테마(chirpy)에서는 사용할 수 없다.
 
 ```yaml
 # Yaml code snippet
@@ -197,7 +199,7 @@ items:
 
 ### Liquid Codes
 
-If you want to display the **Liquid** snippet, surround the liquid code with `{% raw %}{%{% endraw %} raw {%raw%}%}{%endraw%}` and `{% raw %}{%{% endraw %} endraw {%raw%}%}{%endraw%}` .
+**Liquid**를 코드 블럭에 표시 하려면, 코드를 `{% raw %}{%{% endraw %} raw {%raw%}%}{%endraw%}` 및 `{% raw %}{%{% endraw %} endraw {%raw%}%}{%endraw%}`으로 묶으면 된다.
 
 {% raw %}
 ```liquid
@@ -209,5 +211,4 @@ If you want to display the **Liquid** snippet, surround the liquid code with `{%
 
 ## Learn More
 
-For more knowledge about Jekyll posts, visit the [Jekyll Docs: Posts](https://jekyllrb.com/docs/posts/).
-
+지킬 포스팅에 대해 더 많이 알고 싶으면 [Jekyll Docs: Posts](https://jekyllrb.com/docs/posts/)를 방문하면 된다.
