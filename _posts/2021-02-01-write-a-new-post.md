@@ -106,13 +106,18 @@ image:
 _Image Caption_
 ```
 
+![img-description](/assets/img/profile-cat.jpg){: width="200"}
+_Image Caption Example_
+
 ### Image size
 
 `width`를 사용하여 이미지의 너비 (및 높이)를 지정할 수 있다.
 
 ```markdown
-![Desktop View](/assets/img/sample/mockup.png){: width="400"}
+![Desktop View](/assets/img/sample/mockup.png){: width="200"}
 ```
+
+![Desktop View](/assets/img/profile-cat.jpg){: width="200"}
 
 ### Image position
 
@@ -122,9 +127,13 @@ _Image Caption_
 
 - **Normal position**
 
+  `Normal position`은 기본적으로 왼쪽에 정렬되어 생성된다.
+
   ```markdown
   ![Desktop View](/assets/img/sample/mockup.png){: .normal}
   ```
+
+  ![Desktop View](/assets/img/profile-cat.jpg){: .normal, width="200"}
 
 - **Float to the left**
 
@@ -199,7 +208,7 @@ items:
 
 ### Liquid Codes
 
-**Liquid**를 코드 블럭에 표시 하려면, 코드를 `{% raw %}{%{% endraw %} raw {%raw%}%}{%endraw%}` 및 `{% raw %}{%{% endraw %} endraw {%raw%}%}{%endraw%}`으로 묶으면 된다.
+**`Liquid`**를 코드 블럭에 표시 하려면, 코드를 `{% raw %}{%{% endraw %} raw {%raw%}%}{%endraw%}` 및 `{% raw %}{%{% endraw %} endraw {%raw%}%}{%endraw%}`으로 묶으면 된다.
 
 {% raw %}
 ```liquid
