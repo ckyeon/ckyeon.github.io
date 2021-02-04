@@ -15,6 +15,6 @@ pin: true
   3. 스터디 그룹 & 온라인 수업 --> 내 수준 파악
 ```
 1번 잔디(?) 심기를 실천하기 위해 1일 1커밋 계획을 세웠다.
->깃허브 주소: https://github.com/ckyeon
+>깃허브 주소: [https://github.com/**ckyeon**](https://github.com/ckyeon)
 
 기본적으로 매일 커밋을 하고, 중요하거나 의미있는 커밋을 할 때는 이 글에 기록할 것이다.
