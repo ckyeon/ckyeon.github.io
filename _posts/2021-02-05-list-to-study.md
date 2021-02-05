@@ -21,12 +21,13 @@ pin: true
 
 > 게임 개발자 로드맵
 >> [https://github.com/ckyeon/game-developer-roadmap](https://github.com/ckyeon/game-developer-roadmap)
-
+> 게임과 그래픽스 로드맵
+>> [https://www.mindmeister.com/ko/528513515/_?fullscreen=1](https://www.mindmeister.com/ko/528513515/_?fullscreen=1)
 > 게임 프로그래머가 되는 방법
 >> [https://boycoding.tistory.com/125](https://boycoding.tistory.com/125)
 
 ### 유니티
- -  책
+ -  [책](https://www.mindmeister.com/ko/528513515/_?fullscreen=1)
  -  [패스트 캠퍼스](https://www.fastcampus.co.kr/category_dev_3?_ga=2.199066159.1084258136.1611506617-848586888.1609850443&_gac=1.57498072.1611506800.Cj0KCQiA0rSABhDlARIsAJtjfCfQ4Jn1LZ12LP9wWi5IoC6iO2tuXdqhKicXogo9zWYYqHqH0cPIvx4aArvdEALw_wcB)
  -  스터디
 
@@ -38,7 +39,6 @@ pin: true
 
 ### 수학
 - [POCU 강의](https://pocu.academy/ko/Courses/COMP1000)
-- 패스트 캠퍼스
 
 ### 영어
 - [책](http://www.yes24.com/Product/Goods/85385648)
