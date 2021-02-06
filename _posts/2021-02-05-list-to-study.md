@@ -20,13 +20,13 @@ pin: true
 위의 5개 외에 추가로 공부할 목록들이 정리된 사이트
 
 >게임 개발자 로드맵
->>[https://github.com/ckyeon/game-developer-roadmap](https://github.com/ckyeon/game-developer-roadmap)
+>>[https://github.com/ckyeon/game-developer-roadmap](https://github.com/ckyeon/game-developer-roadmap){:target="_blank"}
 
 >게임과 그래픽스 로드맵
->>[https://www.mindmeister.com/ko/528513515](https://www.mindmeister.com/ko/528513515)
+>>[https://www.mindmeister.com/ko/528513515](https://www.mindmeister.com/ko/528513515){:target="_blank"}
 
 >게임 프로그래머가 되는 방법
->>[https://boycoding.tistory.com/125](https://boycoding.tistory.com/125)
+>>[https://boycoding.tistory.com/125](https://boycoding.tistory.com/125){:target="_blank"}
 
 
 ### 유니티
