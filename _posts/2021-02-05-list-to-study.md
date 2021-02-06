@@ -23,7 +23,7 @@ pin: true
 >>[https://github.com/ckyeon/game-developer-roadmap](https://github.com/ckyeon/game-developer-roadmap)
 
 >게임과 그래픽스 로드맵
->>[https://www.mindmeister.com/ko/528513515/_?fullscreen=1](https://www.mindmeister.com/ko/528513515/_?fullscreen=1)
+>>[https://www.mindmeister.com/ko/528513515](https://www.mindmeister.com/ko/528513515)
 
 >게임 프로그래머가 되는 방법
 >>[https://boycoding.tistory.com/125](https://boycoding.tistory.com/125)
