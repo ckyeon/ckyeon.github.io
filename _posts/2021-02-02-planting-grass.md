@@ -23,19 +23,19 @@ pin: true
 
 ## Commit
 
-### 2021-02-05 공부할 목록
+### 2021-02-05 ```공부할 목록```
 ```
 2021-02-05 공부할 목록, 무엇으로 공부할 것인지를 ckyeon.github.io 저장소에 커밋했다.
 ```
 > [https://github.com/ckyeon/ckyeon.github.io.git](https://github.com/ckyeon/ckyeon.github.io.git)
 
-### 2021-02-09 C++
+### 2021-02-09 ```C++```
 ```
 2021-02-09 C++을 배우면서 작성한 코드를 Cpp 저장소에 커밋했다.
 ```
 > [https://github.com/ckyeon/Cpp.git](https://github.com/ckyeon/Cpp.git)
 
-### 2021-02-18
+### 2021-02-18 ```Unity```
 ```
 2021-02-18 Unity를 배우면서 작성한 코드를 Unity 저장소에 커밋했다.
 ```
