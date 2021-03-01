@@ -13,22 +13,23 @@ tags: [study]
     입력값이 늘어나도 걸리는 시간이 덜 늘어나는 알고리즘이 좋은 알고리즘이다.
     각 줄이 실행되는 걸 1번의 연산이 된다고 생각하고, 입력 값의 길이를 N이라고 한다.
 
+```python
     for num in array:              # array의 길이(N)만큼 아래 연산이 실행
         for compare_num in array:  # array의 길이(N)만큼 아래 연산이 실행
             if num < compare_num:  # 비교 연산 1번 실행
                 break
         else:
             return max_num
-
+```
     N^2의 연산량이 필요하다
 
-
+```python
     max_num = array[0] # 연산 1번 실행
 
     for num in array:      # array의 길이(N)만큼 아래 연산이 실행
 		    if num > max_num:  # 비교 연산 1번 실행
 		        max_num = num  # 대입 연산 1번 실행
-
+```
     1 + 2N의 연산량이 필요하다
 
 
@@ -57,6 +58,61 @@ tags: [study]
     링크드 리스트는 특정 원소에 접근하려면 연결 고리를 따라 탐색해야 한다. 최악의 경우에는 링크드리스트의 길이 N만큼 탐색해야 한다.
     링크드 리스트는 원소를 중간에 삽입/삭제 하기 위해서는 앞 뒤의 포인터만 변경하면 된다. 따라서 원소의 삽입/삭제를 O(1)의 시간 복잡도안에 할 수 있다.
 
+### LinkedList 구현
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self, value):
+        self.head = Node(value)
+
+    def append(self, value):
+        while cur.next is not None: //cur의 다음 노드가 None이 아닐 때까지 반복
+            cur = cur.next
+        cur.next = Node(value)
+
+    def print_all(self):
+        cur = self.head
+
+        while cur is not None:  //cur이 None이 아닐 때까지 반복
+            print(cur.data)
+            cur = cur.next
+    
+    def get_node(self, index):
+        cur = self.head
+        count = 0
+
+        while count < index:
+            cur = cur.next
+            count += 1  
+        return cur
+        
+    def add_node(self, index, value):
+        new_node = Node(value)
+
+        if index == 0:
+            new_node.next = self.head
+            self.head = new_node
+            return
+
+        node = self.het_node(index - 1)
+        next_node = node.next
+        node.next = new_node
+        new_node.next = next_node
+
+    def delete_node(self, index):
+        if index == 0:
+            self.head = self.head.next
+            return
+        
+        previous_delete_node = self.get_node(index - 1)
+        previous_delete_node.next = previous_delete_node.next.next
+```
+
+
 ## Array vs LinkedList
 
  경우 | Array | LinkedList 
@@ -67,7 +123,29 @@ tags: [study]
  정리 | 데이터에 접근하는 경우가 빈번하다면<br> **Array**를 사용하자 | 삽입과 삭제가 빈번하다면<br> **LinkedList**를 사용하는 것이 더 좋다
 
 ## 이진 탐색
+**데이터가 정렬되어 있는 배열에서 특정한 값을 찾아내는 알고리즘**이다.<br> 찾고자하는 값 x와 중간 값을 비교하여 작으면 좌측의 데이터들을 대상으로, 크면 우측의 데이터들을 대상으로 다시 탐색한다. 찾고자하는 값 X를 찾을 때까지 **위의 과정을 반복**한다.
 
+![binary-and-linear-search](/assets/img/binary-and-linear-search-animations.gif)
+
+### 이진 탐색 구현
+```python
+def is_existing_target_number_binary(target, array):
+    array_len = len(array)   
+    low_index = 0
+    high_index = array_len - 1
+    middle_index = (low_index + high_index) // 2
+    
+    while low_index <= high_index:
+        if middle_index == target:
+            return True
+        elif array[middle_index] < target:
+            low_index = middle_index + 1
+        else:
+            high_index = middle_index - 1
+        middle_index = (low_index +high_index) // 2
+
+    return False
+```
 ## 재귀 함수
 
 ## 정렬
