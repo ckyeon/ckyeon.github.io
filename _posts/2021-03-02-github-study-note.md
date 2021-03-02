@@ -7,3 +7,7 @@ tags: [study]
 ## 개요
 
 학교에서 진행한 Github 특강을 정리해 기록해놓은 글이다.
+
+## 현직자 설문조사
+
+![survey](/assets/img/survey.png)
