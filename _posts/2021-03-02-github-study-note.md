@@ -1,5 +1,5 @@
 ---
-title: 깃허브 특강 노트
+title: Github 특강 노트
 date: 2021-03-02 19:21:48 +0900
 categories: [github]
 tags: [study]
