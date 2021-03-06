@@ -21,7 +21,7 @@ tags: [study]
         else:
             return max_num
 ```
->> N^2의 연산량이 필요하다
+> N^2의 연산량이 필요하다
 
 ```python
     max_num = array[0] # 연산 1번 실행
@@ -30,7 +30,7 @@ tags: [study]
 		    if num > max_num:  # 비교 연산 1번 실행
 		        max_num = num  # 대입 연산 1번 실행
 ```
->> 1 + 2N의 연산량이 필요하다
+> 1 + 2N의 연산량이 필요하다
 
 
 상수는 신경쓰지말고, 입력값에 비례하여 얼마나 증가하는지 알기 위해 N만 신경쓰면 된다.
