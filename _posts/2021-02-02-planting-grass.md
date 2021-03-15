@@ -4,6 +4,8 @@ date: 2021-02-02 14:52:40 +0900
 categories: [github]
 tags: [1일 1커밋]
 pin: true
+layout: post
+toc: true
 ---
 ## 개요
 
