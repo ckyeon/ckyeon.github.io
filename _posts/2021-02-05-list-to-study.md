@@ -4,6 +4,7 @@ date: 2021-02-05 20:00:40 +0900
 categories: [study, how]
 tags: [list]
 pin: true
+toc: true
 ---
 ## 개요
 
@@ -45,3 +46,13 @@ pin: true
 
 ### 영어
 - [책](http://www.yes24.com/Product/Goods/85385648)
+
+### 클린 코드
+- [책](http://www.yes24.com/Product/Goods/11681152)
+
+### 디자인 패턴
+- [책](http://www.yes24.com/Product/Goods/1778966)
+
+### 네트워크 패킷 분석
+- WireShark Tool 사용
+- [블로그 포스팅](https://m.blog.naver.com/tkdldjs35/221838726823)
