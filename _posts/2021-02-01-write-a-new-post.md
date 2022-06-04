@@ -1,7 +1,7 @@
 ---
 title: 게시물 작성법
 date: 2021-02-01 21:52:40 +0900
-categories: [Blogging]
+categories: [Blogging, how]
 tags: [how, posting]
 ---
 
@@ -106,7 +106,7 @@ image:
 _Image Caption_
 ```
 
-![img-description](/assets/img/profile-cat.jpg){: width="200"}
+![img-description](/assets/img/profile/cat.jpg){: width="200"}
 _Image Caption Example_
 
 ### Image size
@@ -117,7 +117,7 @@ _Image Caption Example_
 ![Desktop View](/assets/img/sample/mockup.png){: width="200"}
 ```
 
-![Desktop View](/assets/img/profile-cat.jpg){: width="200"}
+![Desktop View](/assets/img/profile/cat.jpg){: width="200"}
 
 ### Image position
 
@@ -133,7 +133,7 @@ _Image Caption Example_
   ![Desktop View](/assets/img/sample/mockup.png){: .normal}
   ```
 
-  ![Desktop View](/assets/img/profile-cat.jpg){: .normal, width="200"}
+  ![Desktop View](/assets/img/profile/cat.jpg){: .normal, width="200"}
 
 - **Float to the left**
 

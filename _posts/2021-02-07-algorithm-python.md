@@ -1,14 +1,14 @@
 ---
-title: 알고리즘
+title: Python
 date: 2021-02-07 23:27:40 +0900
-categories: [study, review]
-tags: [study]
+categories: [Study, algorithm]
+tags: [study, python, algorithm]
 toc: true
 ---
 ## 개요
 ---
 ```
-알고리즘을 공부하면서 배운것을 기록 및 정리하는 글이다.
+Python으로 알고리즘을 공부한 내용을 정리한 글이다.
 ```
 ---
 
@@ -202,7 +202,7 @@ class LinkedList:
 
 
 
-![binary-and-linear-search](/assets/img/binary-and-linear-search-animations.gif)
+![binary-and-linear-search](/assets/img/algorithm/binary-and-linear-search.gif)
 
 ### 이진 탐색 구현
 ---
@@ -273,7 +273,7 @@ def factorial(n):
 ```
 n번째 자료와 n+1 번째 자료를 비교하고, 교환하면서 자료를 정렬하는 방식이다.
 ```
-![bubble-sort](/assets/img/bubble-sort-animation.gif)
+![bubble-sort](/assets/img/algorithm/bubble-sort.gif)
 
 ##### 버블 정렬 구현
 ```python
@@ -292,7 +292,7 @@ def bubble_sort(array):
 ```
 제일 작거(내림차순)나 큰(오름차순) 수를 차례대로 선택해서 순서대로 정렬하는 방식이다.
 ```
-![selection-sort](/assets/img/selection_sort_animation.gif)
+![selection-sort](/assets/img/algorithm/selection-sort.gif)
 
 ##### 선택 정렬 구현
 ```python
@@ -315,7 +315,7 @@ def selection_sort(array):
 ```
 전체에서 하나씩 올바른 위치에 삽입해 정렬하는 방식이다.
 ```
-![insertion-sort](/assets/img/insertion_sort_animation.gif)
+![insertion-sort](/assets/img/algorithm/insertion-sort.gif)
 ##### 삽입 정렬 구현
 ```python
 def insertion_sort(array):
@@ -336,7 +336,7 @@ def insertion_sort(array):
 ```
 배열을 앞 부분과 뒷 부분의 두 그룹으로 나누며 각각 정렬한 후 병합하는 방식이다.
 ```
-![merge-sort](/assets/img/merge_sort_image.png)
+![merge-sort](/assets/img/algorithm/merge-sort.png)
 
 ##### 병합 정렬 구현
 ```python
@@ -387,7 +387,7 @@ def merge(array1, array2)
 ```
 >LIFO(Last In First Out) 라고도 불린다.
 
-![stack](/assets/img/stack_image.png)
+![stack](/assets/img/algorithm/stack.png)
 
 ### 스택 구현
 ---
@@ -435,7 +435,7 @@ class Stack:
 ```
 >FIFO(First In First Out) 라고도 불린다.
 
-![queue](/assets/img/queue_image.png)
+![queue](/assets/img/algorithm/queue.png)
 
 ### 큐 구현
 ---
@@ -496,7 +496,7 @@ class Queue:
 
 > 시간은 빠르되 공간을 대신 사용한다.
 
-![linked_dict](/assets/img/linkeddict_image.png)
+![linked_dict](/assets/img/algorithm/linked-dict.png)
 
 ### 해쉬 테이블 구현
 ---
@@ -546,7 +546,7 @@ class LinkedDict:
 > 선형 구조는 자료를 저장하고 꺼내는 것에 초점이 맞춰져 있고,
 > <br/>비선형 구조는 표현에 초점이 맞춰져 있다.
 
-![tree](/assets/img/tree_image.png)
+![tree](/assets/img/algorithm/tree.png)
 
 ### 이진 트리와 완전 이진 트리
 ---
@@ -586,7 +586,7 @@ class LinkedDict:
 
 > Min Heap: 항상 작은 값이 상위 레벨에 있고, 큰 값이 하위 레벨에 있도록 하는 자료 구조.
 
-![heap](/assets/img/heap_image.png)
+![heap](/assets/img/algorithm/heap.png)
 
 ### Max Heap 구현
 ---
@@ -645,9 +645,9 @@ class MaxHeap:
 ```
 > 그래프는 연결 관계에 초점이 맞춰져 있다.
 
-![graph](/assets/img/graph_image.png)
+![graph](/assets/img/algorithm/graph.png)
 
-![graph_direct](/assets/img/graph_direction_image.png)
+![graph_direct](/assets/img/algorithm/graph-direction.png)
 
 > 유방향 그래프: 방향이 있는 간선을 갖는다.
 
@@ -689,7 +689,7 @@ graph = {
 끝까지 탐색하면 다시 위로 돌아와 다음을 탐색하는 방법이다.
 ```
 
-![dfs](/assets/img/dfs_animation.gif)
+![dfs](/assets/img/algorithm/dfs.gif)
 
 ### DFS 구현
 ---
@@ -731,7 +731,7 @@ def dfs_stack(adjacent_graph, start_node):
 한 노드를 시작으로 인접한 모든 정점들을 우선 방문하는 방법이다.
 ```
 
-![bfs](/assets/img/bfs_animation.gif)
+![bfs](/assets/img/algorithm/bfs.gif)
 
 ### BFS 구현
 ---
