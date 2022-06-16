@@ -12,6 +12,7 @@
     const iframe = "iframe.utterances-frame";
     const lightTheme = "github-light";
     const darkTheme = "github-dark";
+    const darkblueTheme = "dark-blue";
     let initTheme = lightTheme;
 
     if ($("html[data-mode=dark]").length > 0
@@ -32,7 +33,7 @@
             event.data.direction === ModeToggle.ID) {
         /* global theme mode changed */
         const mode = event.data.message;
-        theme = (mode === ModeToggle.DARK_MODE ? darkTheme : lightTheme);
+        theme = (mode === ModeToggle.DARK_MODE ? darkblueTheme : lightTheme);
 
       } else {
         return;
