@@ -101,6 +101,16 @@
     display: inline-block;
 
     &.month {
+      font-size: 85%;
+      font-family: 'Lato', sans-serif;
+      text-align: center;
+      margin-right: -2px;
+      width: 1.2rem;
+      position: relative;
+      left: -0.15rem;
+    }
+
+    &.day {
       width: 1.4rem;
       text-align: center;
 
@@ -121,16 +131,6 @@
         box-shadow: 0 0 3px 0 #c2c6cc;
         z-index: 1;
       }
-    }
-
-    &.day {
-      font-size: 85%;
-      font-family: 'Lato', sans-serif;
-      text-align: center;
-      margin-right: -2px;
-      width: 1.2rem;
-      position: relative;
-      left: -0.15rem;
     }
   } // #archives .date
 
