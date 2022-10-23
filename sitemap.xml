@@ -9,67 +9,92 @@
 
 <url>
   <loc>https://ckyeon.github.io/</loc>
-  <lastmod>2022-10-11T00:31:32+00:00</lastmod>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://ckyeon.github.io/categories/</loc>
-  <lastmod>2022-10-11T00:31:32+00:00</lastmod>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ckyeon.github.io/tags/</loc>
-  <lastmod>2022-10-11T00:31:32+00:00</lastmod>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ckyeon.github.io/archives/</loc>
-  <lastmod>2022-10-11T00:31:32+00:00</lastmod>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ckyeon.github.io/about/</loc>
-  <lastmod>2022-10-11T00:31:32+00:00</lastmod>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ckyeon.github.io/posts/hoony's-spring-transaction/</loc>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ckyeon.github.io/posts/posting-plan/</loc>
-  <lastmod>2022-10-11T00:31:32+00:00</lastmod>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ckyeon.github.io/posts/write-a-new-post/</loc>
-  <lastmod>2022-10-11T00:31:32+00:00</lastmod>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ckyeon.github.io/tags/how/</loc>
-  <lastmod>2022-10-11T00:31:32+00:00</lastmod>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ckyeon.github.io/tags/java/</loc>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ckyeon.github.io/tags/plan/</loc>
-  <lastmod>2022-10-11T00:31:32+00:00</lastmod>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ckyeon.github.io/tags/spring/</loc>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ckyeon.github.io/tags/tutorial/</loc>
-  <lastmod>2022-10-11T00:31:32+00:00</lastmod>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ckyeon.github.io/categories/blogging/</loc>
-  <lastmod>2022-10-11T00:31:32+00:00</lastmod>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://ckyeon.github.io/categories/plan/</loc>
-  <lastmod>2022-10-11T00:31:32+00:00</lastmod>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://ckyeon.github.io/categories/tutorial/</loc>
-  <lastmod>2022-10-11T00:31:32+00:00</lastmod>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://ckyeon.github.io/categories/java/</loc>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://ckyeon.github.io/categories/10%EB%B6%84-%ED%85%8C%EC%BD%94%ED%86%A1/</loc>
+  <lastmod>2022-10-23T09:17:14+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 
