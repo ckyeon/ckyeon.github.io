@@ -1,0 +1,377 @@
+---
+title: "Proreviewer OAuth2 리팩터링 과정"
+date: 2022-10-21 20:32:00 +0900
+categories: [Java, Refactoring]
+tags: [java, spring]
+---
+proreviewer을 개발하던 중 프론트엔드의 요구사항으로 인해 `SpringSecurity`를 이용하지 않고 OAuth2 로그인을 구현해야하는 일이 생겼다.
+
+때문에, 먼저 OAuth2.0에 대해 간단한 [정보 조사](https://ckyeon.notion.site/OAuth2-0-49f94f32f4c64913b0dfc5d5a9987972){:target="_blank"} 후 OAuth2 Login을 구현하게 되었다.
+
+일단 이론과 github, google의 API 문서만 보고 구현해야 했기에  
+작동하지만 악취가 풀풀 나는 코드를 작성했다.
+```java
+@Service
+@RequiredArgsConstructor
+public class AuthService {
+
+	private final AuthRepository authRepository;
+	private final UserRepository userRepository;
+	private final JwtProvider jwtProvider;
+	private final Environment env;
+
+	public AuthTokens githubLogin(LoginRequestDto dto) {
+		String accessToken = this.getGithubAccessToken(
+			env.getProperty("github.access-token.url"),
+			dto.getCode()
+		);
+
+		UserInfo userInfo = this.getGithubUserInfo(
+			env.getProperty("github.user-api.url"),
+			accessToken
+		);
+
+		Long loginUserId = login(userInfo);
+		return AuthTokens.builder()
+			.accessToken(jwtProvider.accessToken(String.valueOf(loginUserId)))
+			.refreshToken(UUID.randomUUID().toString())
+			.build();
+	}
+
+	public AuthTokens googleLogin(LoginRequestDto dto) {
+		String accessToken = this.getGoogleAccessToken(
+			env.getProperty("google.access-token.url"),
+			dto.getCode()
+		);
+
+		UserInfo userInfo = this.getGoogleUserInfo(env.getProperty("google.user-api.url"), accessToken);
+
+		Long loginUserId = login(userInfo);
+		return AuthTokens.builder()
+			.accessToken(jwtProvider.accessToken(String.valueOf(loginUserId)))
+			.refreshToken(UUID.randomUUID().toString())
+			.build();
+	}
+
+	private String getGoogleAccessToken(String url, String code) {
+		String clientId = env.getProperty("google.client-id");
+		String clientSecret = env.getProperty("google.client-secret");
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set(HttpHeaders.ACCEPT, "application/json");
+		HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+
+		String urlTemplate = UriComponentsBuilder.fromHttpUrl(url)
+			.queryParam("client_id", "{clientId}")
+			.queryParam("client_secret", "{clientSecret}")
+			.queryParam("code", "{code}")
+			.queryParam("redirect_uri", "{redirectUri}")
+			.queryParam("grant_type", "{grantType}")
+			.encode()
+			.toUriString();
+
+		Map<String, String> params = new HashMap<>();
+		params.put("clientId", clientId);
+		params.put("clientSecret", clientSecret);
+		params.put("code", code);
+		params.put("grantType", "authorization_code");
+		params.put("redirectUri", env.getProperty("google.redirect-uri"));
+
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> res = restTemplate.exchange(
+			urlTemplate,
+			HttpMethod.POST,
+			entity,
+			String.class,
+			params
+		);
+
+		return new Gson()
+			.fromJson(res.getBody(), HashMap.class)
+			.get("access_token")
+			.toString();
+	}
+
+	private String getGithubAccessToken(String url, String code) {
+		String clientId = env.getProperty("github.client-id");
+		String clientSecret = env.getProperty("github.client-secret");
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set(HttpHeaders.ACCEPT, "application/json");
+		HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+
+		String urlTemplate = UriComponentsBuilder.fromHttpUrl(url)
+			.queryParam("client_id", "{clientId}")
+			.queryParam("client_secret", "{clientSecret}")
+			.queryParam("code", "{code}")
+			.encode()
+			.toUriString();
+
+		Map<String, String> params = new HashMap<>();
+		params.put("clientId", clientId);
+		params.put("clientSecret", clientSecret);
+		params.put("code", code);
+
+		ResponseEntity<String> res = new RestTemplate().exchange(
+			urlTemplate,
+			HttpMethod.POST,
+			entity,
+			String.class,
+			params
+		);
+		HashMap<String, String> resMap = new Gson().fromJson(res.getBody(), HashMap.class);
+
+		String err = resMap.get("error");
+		if (err != null) {
+			throw new InvalidAuthorizationCodeException();
+		}
+
+		return resMap.get("access_token");
+	}
+
+	private UserInfo getGithubUserInfo(String url, String accessToken) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+		HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+
+		ResponseEntity<String> res;
+		try {
+			res = new RestTemplate().exchange(
+				url,
+				HttpMethod.GET,
+				entity,
+				String.class
+			);
+		} catch (RestClientException e) {
+			throw new InvalidGithubAccessTokenException();
+		}
+
+		return new Gson().fromJson(res.getBody(), UserInfo.class);
+	}
+
+	private UserInfo getGoogleUserInfo(String url, String accessToken) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+		HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
+
+		ResponseEntity<String> res = new RestTemplate().exchange(
+			url,
+			HttpMethod.GET,
+			entity,
+			String.class
+		);
+
+		return new Gson().fromJson(res.getBody(), UserInfo.class);
+	}
+
+	private Long login(UserInfo userInfo) {
+		Optional<User> exUser = userRepository.findByEmail(userInfo.getEmail());
+		if (exUser.isEmpty()) {
+			User user = User
+				.builder()
+				.email(userInfo.getEmail())
+				.build();
+			exUser = Optional.ofNullable(userRepository.saveUser(user));
+		}
+
+		Optional<Auth> exAuth = this.authRepository.findByProviderKey(userInfo.getId());
+		if (exAuth.isEmpty()) {
+			Auth auth = Auth
+				.builder()
+				.provider(Provider.GITHUB)
+				.providerKey(userInfo.getId())
+				.userId(exUser.get())
+				.build();
+			authRepository.saveAuth(auth);
+		}
+
+		return exUser.get().getId();
+	}
+}
+```
+
+악취 나는 코드를 작성하며 슬슬 익숙해졌기도 하고  
+`AuthService`가 너무 비대해졌으므로 OAuth2 관련 로직을 리팩터링함과 동시에 Service에서 분리했다.
+
+```java
+@Service
+@RequiredArgsConstructor
+public class AuthService {
+
+	private final AuthRepository authRepository;
+	private final UserRepository userRepository;
+	private final JwtProvider jwtProvider;
+	private final OAuth2 oAuth2;
+
+	public AuthTokens login(Provider provider, LoginRequestDto dto) {
+		UserInfo userInfo = oAuth2.getUserInfo(provider, dto.getCode());
+
+		User user = getUser(userInfo);
+		if (!isAuthExist(userInfo)) {
+			createAuth(user, userInfo, provider);
+		}
+
+		return AuthTokens
+			.builder()
+			.accessToken(createAccessToken(user.getId()))
+			.refreshToken(createRefreshToken())
+			.build();
+	}
+
+	// ...생략
+}
+```
+
+```java
+@RequiredArgsConstructor
+@Component
+class OAuth2 {
+
+	private final Environment env;
+	private Provider provider;
+
+	UserInfo getUserInfo(Provider provider, String code) {
+		settingProvider(provider);
+		String accessToken = getAccessToken(code);
+		ResponseEntity<String> response = requestUserInfo(accessToken);
+		return getUserInfoFromResponseBody(response.getBody());
+	}
+
+        // ...중략
+
+	private void settingProvider(Provider provider) {
+		this.provider = provider;
+	}
+
+	private String getRequestUserInfoUrl() {
+		if (provider == Provider.GITHUB) {
+			return env.getProperty("github.user-api.url");
+		}
+		return env.getProperty("google.user-api.url");
+	}
+}
+```
+
+여기서 두 가지 큰 실수를 범하고 만다.
+1. 중복 제거와 리팩터링에만 신경쓰다보니 `OAuth2` 클래스를 가변 객체로 만들어 thread safe 하지 않도록 만들었다. 
+2. github와 google에서 유저 정보를 가져오는 로직의 가짜 중복과 진짜 중복을 구분하지 못하였다.
+
+
+때문에, 템플릿 메소드 패턴을 적용해 로직의 가짜 중복과 진짜 중복을 구분하도록 추상화했다.
+
+또한, `abstract OAuth2`클래스를 구현한 `GoogleOAuth2`, `GithubOAuth2` 클래스를 빈으로 등록한 다음 요청에 따라 `ApplicationContext`에서 빈을 꺼내오도록 만들어 thread-safe 하도록 만들었다.
+
+```java
+@Service
+@RequiredArgsConstructor
+public class AuthService {
+
+	private final AuthRepository authRepository;
+	private final UserRepository userRepository;
+	private final JwtProvider jwtProvider;
+
+	private final ApplicationContext context;
+
+	public AuthTokens login(Provider provider, LoginRequestDto dto) {
+		OAuth2 oAuth2 = getOAuth2ConcreteClassBean(provider);
+
+		UserInfo userInfo = oAuth2.getUserInfo(dto.getCode());
+
+		User user = getUser(userInfo);
+		if (!isAuthExist(userInfo)) {
+			createAuth(user, userInfo, provider);
+		}
+
+		return AuthTokens.builder()
+			.accessToken(createAccessToken(user.getId()))
+			.refreshToken(createRefreshToken())
+			.build();
+	}
+
+        // ...중략
+
+	private OAuth2 getOAuth2ConcreteClassBean(Provider provider) {
+		if (provider == Provider.GITHUB) {
+			return context.getBean(GithubOAuth2.class);
+		}
+		return context.getBean(GoogleOAuth2.class);
+	}
+}
+```
+
+
+```java
+public abstract class OAuth2 {
+
+	public UserInfo getUserInfo(String code) {
+		String accessToken = getAccessToken(code);
+		ResponseEntity<String> response = requestUserInfo(
+			accessToken,
+			createHttpHeaders(HttpHeaders.AUTHORIZATION, getBearerAccessToken(accessToken)),
+			getUserInfoRequestUrl()
+		);
+		return getUserInfoFromResponseBody(response.getBody());
+	}
+
+	private String getAccessToken(String code) {
+		ResponseEntity<String> response = requestAccessToken(
+			code,
+			createHttpHeaders(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE),
+			createRequestAccessTokenUrlTemplate(getAccessTokenRequestUrl()),
+			createRequestAccessTokenParams(code)
+		);
+		return getAccessTokenFromResponseBody(response.getBody());
+	}
+
+	private String getAccessTokenFromResponseBody(String responseBody) {
+		return new Gson()
+			.fromJson(responseBody, HashMap.class)
+			.get("access_token")
+			.toString();
+	}
+
+	private UserInfo getUserInfoFromResponseBody(String responseBody) {
+		return new Gson().fromJson(responseBody, UserInfo.class);
+	}
+
+	private String getBearerAccessToken(String accessToken) {
+		return "Bearer " + accessToken;
+	}
+
+	private HttpEntity<HttpHeaders> createHttpHeaders(String name, String value) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set(name, value);
+		return new HttpEntity<>(headers);
+	}
+
+	abstract ResponseEntity<String> requestAccessToken(
+		String code,
+		HttpEntity<HttpHeaders> headers,
+		String urlTemplate,
+		HashMap<String, String> params
+	);
+
+	abstract ResponseEntity<String> requestUserInfo(
+		String accessToken,
+		HttpEntity<HttpHeaders> headers,
+		String url
+	);
+
+	abstract String createRequestAccessTokenUrlTemplate(String requestUrl);
+
+	abstract HashMap<String, String> createRequestAccessTokenParams(String code);
+
+	abstract String getAccessTokenRequestUrl();
+
+	abstract String getUserInfoRequestUrl();
+
+	abstract String getClientId();
+
+	abstract String getClientSecret();
+}
+```
+
+물론 아직 새로운 Provider가 추가 되었을 때 `AuthService`를 수정해야 하므로 OCP를 만족하지 못하고  
+메소드의 파라미터가 너무 많은 문제 등이 있지만.
+
+이는 나중에 방법이 떠올랐을 때 리팩터링 하는 것으로 한다.
