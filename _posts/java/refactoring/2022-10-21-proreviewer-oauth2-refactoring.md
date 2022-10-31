@@ -7,7 +7,7 @@ tags: [java, spring]
 
 ## 2022-10-21 -- 리팩터링 과정
 
-proreviewer을 개발하던 중 프론트엔드의 요구사항으로 인해 `SpringSecurity`를 이용하지 않고 OAuth2 로그인을 구현해야하는 일이 생겼다.
+[Proreviewer Backend](https://github.com/cbnu-sequence/proreviewer-backend/tree/master/src/main/java/com/sequence/proreviewer/auth){:target="_blank"}의 인증 부분을 개발하던 중 프론트엔드의 요구사항으로 인해 `SpringSecurity`를 이용하지 않고 OAuth2 로그인을 구현해야하는 일이 생겼다.
 
 때문에, 먼저 OAuth2.0에 대해 간단한 [정보 조사](https://ckyeon.notion.site/OAuth2-0-49f94f32f4c64913b0dfc5d5a9987972){:target="_blank"} 후 OAuth2 Login을 구현하게 되었다.
 
@@ -40,60 +40,6 @@ public class AuthService {
 			.accessToken(jwtProvider.accessToken(String.valueOf(loginUserId)))
 			.refreshToken(UUID.randomUUID().toString())
 			.build();
-	}
-
-	public AuthTokens googleLogin(LoginRequestDto dto) {
-		String accessToken = this.getGoogleAccessToken(
-			env.getProperty("google.access-token.url"),
-			dto.getCode()
-		);
-
-		UserInfo userInfo = this.getGoogleUserInfo(env.getProperty("google.user-api.url"), accessToken);
-
-		Long loginUserId = login(userInfo);
-		return AuthTokens.builder()
-			.accessToken(jwtProvider.accessToken(String.valueOf(loginUserId)))
-			.refreshToken(UUID.randomUUID().toString())
-			.build();
-	}
-
-	private String getGoogleAccessToken(String url, String code) {
-		String clientId = env.getProperty("google.client-id");
-		String clientSecret = env.getProperty("google.client-secret");
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.set(HttpHeaders.ACCEPT, "application/json");
-		HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
-
-		String urlTemplate = UriComponentsBuilder.fromHttpUrl(url)
-			.queryParam("client_id", "{clientId}")
-			.queryParam("client_secret", "{clientSecret}")
-			.queryParam("code", "{code}")
-			.queryParam("redirect_uri", "{redirectUri}")
-			.queryParam("grant_type", "{grantType}")
-			.encode()
-			.toUriString();
-
-		Map<String, String> params = new HashMap<>();
-		params.put("clientId", clientId);
-		params.put("clientSecret", clientSecret);
-		params.put("code", code);
-		params.put("grantType", "authorization_code");
-		params.put("redirectUri", env.getProperty("google.redirect-uri"));
-
-		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<String> res = restTemplate.exchange(
-			urlTemplate,
-			HttpMethod.POST,
-			entity,
-			String.class,
-			params
-		);
-
-		return new Gson()
-			.fromJson(res.getBody(), HashMap.class)
-			.get("access_token")
-			.toString();
 	}
 
 	private String getGithubAccessToken(String url, String code) {
@@ -153,44 +99,7 @@ public class AuthService {
 		return new Gson().fromJson(res.getBody(), UserInfo.class);
 	}
 
-	private UserInfo getGoogleUserInfo(String url, String accessToken) {
-		HttpHeaders headers = new HttpHeaders();
-		headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
-		HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
-
-		ResponseEntity<String> res = new RestTemplate().exchange(
-			url,
-			HttpMethod.GET,
-			entity,
-			String.class
-		);
-
-		return new Gson().fromJson(res.getBody(), UserInfo.class);
-	}
-
-	private Long login(UserInfo userInfo) {
-		Optional<User> exUser = userRepository.findByEmail(userInfo.getEmail());
-		if (exUser.isEmpty()) {
-			User user = User
-				.builder()
-				.email(userInfo.getEmail())
-				.build();
-			exUser = Optional.ofNullable(userRepository.saveUser(user));
-		}
-
-		Optional<Auth> exAuth = this.authRepository.findByProviderKey(userInfo.getId());
-		if (exAuth.isEmpty()) {
-			Auth auth = Auth
-				.builder()
-				.provider(Provider.GITHUB)
-				.providerKey(userInfo.getId())
-				.userId(exUser.get())
-				.build();
-			authRepository.saveAuth(auth);
-		}
-
-		return exUser.get().getId();
-	}
+	// ...google 관련 로직 생략
 }
 ```
 
@@ -258,7 +167,7 @@ class OAuth2 {
 
 이제 `AuthService`가 Provider로부터 유저 정보를 가져오는 책임을 덜어내게 되었으므로, 어느 정도 SRP를 만족하게 되었다. 👍
 
-여기서 두 가지 큰 실수를 범하고 만다.
+하지만, 여기서 두 가지 큰 실수를 범하고 만다.
 1. 중복 제거와 분리, 리팩터링에만 신경쓰다보니 `OAuth2` 클래스를 가변 객체로 만들어 thread safe 하지 않도록 만들었다. 
 2. github와 google에서 유저 정보를 가져오는 로직의 가짜 중복과 진짜 중복을 구분하지 못하였다.
 
@@ -276,7 +185,6 @@ public class AuthService {
 	private final AuthRepository authRepository;
 	private final UserRepository userRepository;
 	private final JwtProvider jwtProvider;
-
 	private final ApplicationContext context;
 
 	public AuthTokens login(Provider provider, LoginRequestDto dto) {
