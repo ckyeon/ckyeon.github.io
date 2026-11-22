@@ -1,11 +1,12 @@
 // Based on satnaing/astro-paper PR #667 (closed, unmerged).
 // Added `post.tableOfContents` and `a11y.skipTableOfContents`, which the PR lacked.
+// Every post label uses "글". The PR mixed "포스트" and "게시글".
 import type { UIStrings } from "../types";
 
 export default {
   nav: {
     home: "홈",
-    posts: "포스트",
+    posts: "글",
     tags: "태그",
     about: "소개",
     archives: "아카이브",
@@ -14,16 +15,16 @@ export default {
   post: {
     publishedAt: "게시일",
     updatedAt: "수정일",
-    sharePostIntro: "이 포스트 공유하기:",
-    sharePostOn: "{{platform}}에 이 포스트 공유하기",
-    sharePostViaEmail: "이메일로 이 포스트 공유하기",
+    sharePostIntro: "이 글 공유하기:",
+    sharePostOn: "{{platform}}에 이 글 공유하기",
+    sharePostViaEmail: "이메일로 이 글 공유하기",
     tagLabel: "태그",
     backToTop: "맨 위로",
     tableOfContents: "목차",
     goBack: "뒤로 가기",
     editPage: "페이지 편집",
-    previousPost: "이전 포스트",
-    nextPost: "다음 포스트",
+    previousPost: "이전 글",
+    nextPost: "다음 글",
   },
   pagination: {
     prev: "이전",
@@ -32,9 +33,9 @@ export default {
   },
   home: {
     socialLinks: "소셜 링크",
-    featured: "추천 포스트",
-    recentPosts: "최근 포스트",
-    allPosts: "전체 포스트",
+    featured: "추천 글",
+    recentPosts: "최근 글",
+    allPosts: "전체 글",
   },
   footer: {
     copyright: "저작권",
@@ -42,19 +43,19 @@ export default {
   },
   pages: {
     tagTitle: "태그",
-    tagDesc: "이 태그가 지정된 모든 게시글",
+    tagDesc: "이 태그가 지정된 모든 글",
 
     tagsTitle: "태그",
-    tagsDesc: "게시글에 사용된 모든 태그입니다.",
+    tagsDesc: "글에 사용된 모든 태그입니다.",
 
-    postsTitle: "포스트",
-    postsDesc: "제가 작성한 모든 게시글입니다.",
+    postsTitle: "글",
+    postsDesc: "제가 작성한 모든 글입니다.",
 
     archivesTitle: "아카이브",
-    archivesDesc: "제가 보관한 모든 게시글입니다.",
+    archivesDesc: "제가 보관한 모든 글입니다.",
 
     searchTitle: "검색",
-    searchDesc: "게시글을 검색해보세요...",
+    searchDesc: "글을 검색해보세요...",
   },
   a11y: {
     skipToContent: "본문으로 건너뛰기",
@@ -62,7 +63,7 @@ export default {
     openMenu: "메뉴 열기",
     closeMenu: "메뉴 닫기",
     toggleTheme: "테마 전환",
-    searchPlaceholder: "게시글 검색...",
+    searchPlaceholder: "글 검색...",
     noResults: "검색 결과가 없습니다",
     goToPreviousPage: "이전 페이지로 이동",
     goToNextPage: "다음 페이지로 이동",
