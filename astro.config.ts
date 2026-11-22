@@ -32,9 +32,11 @@ export default defineConfig({
     }),
     inlineTocDeprecation(),
   ],
+  // Must match `site.lang` in astro-paper.config.ts. Layout and useTranslations
+  // read Astro.currentLocale first, so `site.lang` alone still renders "en".
   i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
+    locales: ["ko"],
+    defaultLocale: "ko",
     routing: {
       prefixDefaultLocale: false,
     },
