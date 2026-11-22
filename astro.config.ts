@@ -81,7 +81,7 @@ export default defineConfig({
       provider: fontProviders.google(),
       fallbacks: ["monospace"],
       weights: [400, 700],
-      styles: ["normal"], // Noto Sans KR has no italic; the build warns if listed.
+      styles: ["normal", "italic"],
       formats: ["woff", "ttf"],
     },
   ],

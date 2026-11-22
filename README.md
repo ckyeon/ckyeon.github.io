@@ -1,6 +1,6 @@
 # ckyeon's tech
 
-https://blog.ckyeon.com 의 소스다. [AstroPaper](https://github.com/satnaing/astro-paper) v7.2.1 템플릿으로 시작했다.
+<https://blog.ckyeon.com>의 소스다. [AstroPaper](https://github.com/satnaing/astro-paper) v7.2.1 템플릿으로 시작했다.
 
 ## 로컬에서 실행
 
