@@ -70,12 +70,15 @@ export default defineConfig({
   },
   fonts: [
     {
-      name: "Google Sans Code",
+      // Korean coverage, as the "Issue with Non-Latin Characters" section of
+      // AstroPaper's dynamic OG image doc advises. The cssVariable stays the
+      // same so og.png.ts and index.png.ts need no change.
+      name: "Noto Sans KR",
       cssVariable: "--font-google-sans-code",
       provider: fontProviders.google(),
       fallbacks: ["monospace"],
-      weights: [300, 400, 500, 600, 700],
-      styles: ["normal", "italic"],
+      weights: [400, 700],
+      styles: ["normal"], // Noto Sans KR has no italic; the build warns if listed.
       formats: ["woff", "ttf"],
     },
   ],
