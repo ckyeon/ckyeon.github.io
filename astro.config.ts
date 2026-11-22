@@ -20,6 +20,7 @@ import {
   inlineTocDeprecation,
   rehypeInlineToc,
 } from "./src/utils/rehypeInlineToc";
+import partytown from "@astrojs/partytown";
 import config from "./astro-paper.config";
 
 export default defineConfig({
@@ -31,6 +32,8 @@ export default defineConfig({
         config.features?.showArchives !== false || !/\/archives\/?$/.test(page),
     }),
     inlineTocDeprecation(),
+    // Google Analytics runs in a web worker, per AstroPaper wiki "Integrations".
+    partytown({ config: { forward: ["dataLayer.push"] } }),
   ],
   // Must match `site.lang` in astro-paper.config.ts. Layout and useTranslations
   // read Astro.currentLocale first, so `site.lang` alone still renders "en".

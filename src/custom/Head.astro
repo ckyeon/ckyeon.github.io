@@ -8,3 +8,16 @@ type Props = {
   description: string;
 };
 ---
+
+<!-- Google Analytics via Partytown, per AstroPaper wiki "Integrations". -->
+<script
+  type="text/partytown"
+  src="https://www.googletagmanager.com/gtag/js?id=G-ESWDS3JLZB"></script>
+<script type="text/partytown">
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+  gtag("config", "G-ESWDS3JLZB");
+</script>
