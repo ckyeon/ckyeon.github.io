@@ -10,25 +10,32 @@
   --font-app: var(--font-google-sans-code);
 }
 
+/*
+ * "Paper and green ink" palette, replacing the template's hex values as
+ * AstroPaper wiki "Customization > Color Schemes" says to. Picked from four
+ * candidates compared on the real pages (branch prototype/palette-favicon).
+ * Every text pair passes WCAG AA (4.5:1) in both themes.
+ */
+
 /* Light theme values */
 :root,
 [data-theme="light"] {
-  --background: #fdfdfd;
-  --foreground: #282728;
-  --accent: #006cac;
+  --background: #fafaf7;
+  --foreground: #1c1f1d;
+  --accent: #1f6f4a;
   --accent-foreground: #ffffff;
-  --muted: #e6e6e6;
-  --muted-foreground: #6b7280;
-  --border: #ece9e9;
+  --muted: #ecede6;
+  --muted-foreground: #5c635e;
+  --border: #dfe1d8;
 }
 
 /* Dark theme values */
 [data-theme="dark"] {
-  --background: #212737;
-  --foreground: #eaedf3;
-  --accent: #ff6b01;
-  --accent-foreground: #ffffff;
-  --muted: #343f60;
-  --muted-foreground: #afb9ca;
-  --border: #ab4b08;
+  --background: #141815;
+  --foreground: #e4e7e2;
+  --accent: #6fcf97;
+  --accent-foreground: #0f1a14;
+  --muted: #222823;
+  --muted-foreground: #9aa39c;
+  --border: #2d342f;
 }
