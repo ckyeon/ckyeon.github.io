@@ -2,4 +2,8 @@
 // Rendered right before </body> on every page. Add your own scripts
 // or widgets here. This file is yours: AstroPaper never changes it
 // after release.
+// PROTOTYPE, throwaway: remove this import and the line below before committing.
+import PrototypeThemeSwitcher from "./PrototypeThemeSwitcher.astro";
 ---
+
+{import.meta.env.DEV && <PrototypeThemeSwitcher />}

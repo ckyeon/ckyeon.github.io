@@ -1,0 +1,193 @@
+---
+// PROTOTYPE, throwaway: never commit to master.
+// Question: which palette should src/styles/theme.css use, and which
+// monogram should replace public/favicon.svg?
+// Four palettes and two favicon monograms on the real pages, switched with
+// ?variant=A|B|C|D and ?favicon=c|ck, the bottom bar, or the left/right keys.
+// The choice is kept in sessionStorage so it survives page navigation.
+---
+
+<div
+  id="proto-bar"
+  style="position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9999;max-width:calc(100vw - 32px);background:#111;color:#f5f5f5;border:2px solid #f5f5f5;border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,.35);padding:8px 12px;font:13px/1.4 system-ui,sans-serif;display:flex;flex-direction:column;gap:6px;"
+>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;">
+    <button data-proto-action="prev" style="padding:2px 8px;border:1px solid #888;border-radius:6px;">←</button>
+    <strong id="proto-label" style="min-width:220px;text-align:center;"></strong>
+    <button data-proto-action="next" style="padding:2px 8px;border:1px solid #888;border-radius:6px;">→</button>
+    <span style="opacity:.6;">|</span>
+    <span>favicon</span>
+    <button data-proto-action="fav" data-fav="c" style="padding:2px 8px;border:1px solid #888;border-radius:6px;">c</button>
+    <button data-proto-action="fav" data-fav="ck" style="padding:2px 8px;border:1px solid #888;border-radius:6px;">ck</button>
+    <span id="proto-favs" style="display:inline-flex;align-items:center;gap:6px;"></span>
+  </div>
+  <div id="proto-contrast" style="text-align:center;opacity:.9;"></div>
+</div>
+
+<script>
+  type Mode = { [k: string]: string };
+  const PALETTES: Record<string, { name: string; light: Mode; dark: Mode }> = {
+    A: {
+      name: "Template default",
+      light: { background: "#fdfdfd", foreground: "#282728", accent: "#006cac", "accent-foreground": "#ffffff", muted: "#e6e6e6", "muted-foreground": "#6b7280", border: "#ece9e9" },
+      dark: { background: "#212737", foreground: "#eaedf3", accent: "#ff6b01", "accent-foreground": "#ffffff", muted: "#343f60", "muted-foreground": "#afb9ca", border: "#ab4b08" },
+    },
+    B: {
+      name: "Wiki warm light (dark = default)",
+      light: { background: "#f6eee1", foreground: "#012c56", accent: "#e14a39", "accent-foreground": "#ffffff", muted: "#efd8b0", "muted-foreground": "#6b7280", border: "#dc9891" },
+      dark: { background: "#212737", foreground: "#eaedf3", accent: "#ff6b01", "accent-foreground": "#ffffff", muted: "#343f60", "muted-foreground": "#afb9ca", border: "#ab4b08" },
+    },
+    C: {
+      name: "Paper and green ink",
+      light: { background: "#fafaf7", foreground: "#1c1f1d", accent: "#1f6f4a", "accent-foreground": "#ffffff", muted: "#ecede6", "muted-foreground": "#5c635e", border: "#dfe1d8" },
+      dark: { background: "#141815", foreground: "#e4e7e2", accent: "#6fcf97", "accent-foreground": "#0f1a14", muted: "#222823", "muted-foreground": "#9aa39c", border: "#2d342f" },
+    },
+    D: {
+      name: "Cool indigo",
+      light: { background: "#fbfbfe", foreground: "#22223a", accent: "#4f46e5", "accent-foreground": "#ffffff", muted: "#ecebf8", "muted-foreground": "#5d5d78", border: "#e2e1f0" },
+      dark: { background: "#16162a", foreground: "#e7e6f5", accent: "#a5b4fc", "accent-foreground": "#16162a", muted: "#25253f", "muted-foreground": "#a3a3c2", border: "#33335a" },
+    },
+  };
+
+  // Noto Sans KR Bold outlines, ink box normalised to (0,0). From fontkitten.
+  const GLYPHS: Record<string, { d: string; w: number; h: number }> = {
+    c: { w: 456, h: 588, d: "M273 588Q196 588 134 553Q72 518 36 452.5Q0 387 0 294Q0 201 39.5 135.5Q79 70 144.5 35Q210 0 286 0Q338 0 378 17.5Q418 35 449 63L379 156Q359 138 338 129Q317 120 294 120Q251 120 218.5 141.5Q186 163 168.5 202Q151 241 151 294Q151 347 168.5 386Q186 425 217.5 446.5Q249 468 289 468Q319 468 347 455Q375 442 398 423L456 520Q416 555 367.5 571.5Q319 588 273 588Z" },
+    ck: { w: 1081, h: 812, d: "M273 812Q196 812 134 777Q72 742 36 676.5Q0 611 0 518Q0 425 39.5 359.5Q79 294 144.5 259Q210 224 286 224Q338 224 378 241.5Q418 259 449 287L379 380Q359 362 338 353Q317 344 294 344Q251 344 218.5 365.5Q186 387 168.5 426Q151 465 151 518Q151 571 168.5 610Q186 649 217.5 670.5Q249 692 289 692Q319 692 347 679Q375 666 398 647L456 744Q416 779 367.5 795.5Q319 812 273 812ZM562 798L562 0L707 0L707 478L711 478L902 238L1063 238L871 469L1081 798L921 798L785 565L707 656L707 798Z" },
+  };
+
+  const PAIRS: [string, string, string][] = [
+    ["foreground", "background", "본문"],
+    ["accent", "background", "링크"],
+    ["muted-foreground", "background", "흐린 글자"],
+    ["foreground", "muted", "muted 위 글자"],
+    ["accent-foreground", "accent", "accent 위 글자"],
+  ];
+
+  const KEYS = Object.keys(PALETTES);
+  const FAVS = Object.keys(GLYPHS);
+
+  const lum = (hex: string) => {
+    const [r, g, b] = [1, 3, 5]
+      .map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
+      .map(c => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const ratio = (a: string, b: string) => {
+    const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p);
+    return (x + 0.05) / (y + 0.05);
+  };
+
+  function faviconSvg(text: string, bg: string, fg: string) {
+    const g = GLYPHS[text];
+    const size = 128;
+    const pad = text === "c" ? 24 : 20;
+    const scale = Math.min((size - pad * 2) / g.w, (size - pad * 2) / g.h);
+    const tx = (size - g.w * scale) / 2;
+    const ty = (size - g.h * scale) / 2;
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="28" fill="${bg}"/><path transform="translate(${tx.toFixed(2)} ${ty.toFixed(2)}) scale(${scale.toFixed(5)})" fill="${fg}" d="${g.d}"/></svg>`;
+  }
+  const dataUrl = (svg: string) => `data:image/svg+xml,${encodeURIComponent(svg)}`;
+
+  function readState() {
+    const url = new URL(location.href);
+    let v = url.searchParams.get("variant") ?? sessionStorage.getItem("proto-variant") ?? "A";
+    let f = url.searchParams.get("favicon") ?? sessionStorage.getItem("proto-favicon") ?? "c";
+    if (!KEYS.includes(v)) v = "A";
+    if (!FAVS.includes(f)) f = "c";
+    return { v, f };
+  }
+
+  function writeState(s: { v: string; f: string }) {
+    sessionStorage.setItem("proto-variant", s.v);
+    sessionStorage.setItem("proto-favicon", s.f);
+    const url = new URL(location.href);
+    url.searchParams.set("variant", s.v);
+    url.searchParams.set("favicon", s.f);
+    history.replaceState(history.state, "", url);
+  }
+
+  function apply() {
+    const s = readState();
+    writeState(s);
+    const p = PALETTES[s.v];
+
+    const decl = (o: Mode) => Object.entries(o).map(([k, v]) => `--${k}: ${v};`).join(" ");
+    let style = document.getElementById("proto-palette");
+    if (!style) {
+      style = document.createElement("style");
+      style.id = "proto-palette";
+      document.head.append(style);
+    }
+    style.textContent = `html[data-theme="light"] { ${decl(p.light)} } html[data-theme="dark"] { ${decl(p.dark)} }`;
+
+    // Browser tab icon: light-mode accent, since a favicon cannot follow the site toggle.
+    const tab = dataUrl(faviconSvg(s.f, p.light.accent, p.light["accent-foreground"]));
+    document.querySelectorAll<HTMLLinkElement>('link[rel="icon"]').forEach(l => (l.href = tab));
+
+    const label = document.getElementById("proto-label");
+    if (label) label.textContent = `${s.v} · ${p.name}`;
+
+    document.querySelectorAll<HTMLButtonElement>('[data-proto-action="fav"]').forEach(b => {
+      b.style.background = b.dataset.fav === s.f ? "#f5f5f5" : "transparent";
+      b.style.color = b.dataset.fav === s.f ? "#111" : "#f5f5f5";
+    });
+
+    const favs = document.getElementById("proto-favs");
+    if (favs) {
+      favs.innerHTML = (["light", "dark"] as const)
+        .map(mode => {
+          const src = dataUrl(faviconSvg(s.f, p[mode].accent, p[mode]["accent-foreground"]));
+          return `<span title="${mode} accent" style="display:inline-flex;align-items:end;gap:4px;padding:2px 4px;border-radius:6px;background:${p[mode].background};">${[16, 32, 64]
+            .map(px => `<img src="${src}" width="${px}" height="${px}" alt="">`)
+            .join("")}</span>`;
+        })
+        .join("");
+    }
+
+    const mode = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+    const contrast = document.getElementById("proto-contrast");
+    if (contrast) {
+      contrast.innerHTML =
+        `${mode} 대비 (AA 4.5): ` +
+        PAIRS.map(([f, b, name]) => {
+          const r = ratio(p[mode][f], p[mode][b]);
+          const color = r < 4.5 ? "#ff8a80" : "#b9f6ca";
+          return `${name} <b style="color:${color}">${r.toFixed(2)}</b>`;
+        }).join(" · ");
+    }
+  }
+
+  function step(delta: number) {
+    const s = readState();
+    s.v = KEYS[(KEYS.indexOf(s.v) + delta + KEYS.length) % KEYS.length];
+    writeState(s);
+    apply();
+  }
+
+  document.addEventListener("click", e => {
+    const el = (e.target as HTMLElement).closest<HTMLElement>("[data-proto-action]");
+    if (!el) return;
+    const action = el.dataset.protoAction;
+    if (action === "prev") step(-1);
+    if (action === "next") step(1);
+    if (action === "fav") {
+      const s = readState();
+      s.f = el.dataset.fav ?? "c";
+      writeState(s);
+      apply();
+    }
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const t = e.target as HTMLElement;
+    if (t.closest("input, textarea, [contenteditable]")) return;
+    if (e.key === "ArrowLeft") step(-1);
+    if (e.key === "ArrowRight") step(1);
+  });
+
+  // The theme toggle changes data-theme; refresh the contrast readout.
+  new MutationObserver(apply).observe(document.documentElement, { attributeFilter: ["data-theme"] });
+  document.addEventListener("astro:after-swap", apply);
+  apply();
+</script>
