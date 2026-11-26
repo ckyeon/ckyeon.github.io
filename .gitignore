@@ -31,3 +31,6 @@ public/pagefind
 
 # docker compose
 compose.override.yaml
+
+# local maintenance notes, kept off GitHub
+/notes/
